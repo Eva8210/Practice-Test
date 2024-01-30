@@ -17,7 +17,7 @@ import java.time.Duration;
 
 public class ToDoListTest extends BasePageTest {
 
-//@FindBy(xpath = "//input[contains(@placeholder, 'add new todo')]")
+
 //WebElement inputTodo;
 
 
