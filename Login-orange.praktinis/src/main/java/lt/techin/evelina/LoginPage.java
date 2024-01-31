@@ -9,6 +9,7 @@ public class LoginPage extends BasePage {
         super(driver);
     }
     @FindBy(xpath = "//*[@id=\"app\"]/div[1]/div/div[1]/div/div[2]/div[2]/div/div/p[1]")
+//    @FindBy(xpath = "//*[@id=\"app\"]/*div/p[contains(@text(),'Username :']")
     WebElement givenUsername;
     String name = givenUsername.getText();
     String[] usernameWords = name.split(" : ");
@@ -28,13 +29,13 @@ public class LoginPage extends BasePage {
     String[] passwordWords = fullPassword.split(" : ");
     String  password = passwordWords[passwordWords.length-1];
 
-    @FindBy(xpath = "//*[@id=\"app\"]/div[1]/div/div[1]/div/div[2]/div[2]/form/div[1]/div/div[2]/input")
-    WebElement usernameInput;
+      @FindBy(xpath = "//input[contains(@name, 'username')]")
+      WebElement usernameInput;
 
-    @FindBy(xpath = "//*[@id=\"app\"]/div[1]/div/div[1]/div/div[2]/div[2]/form/div[2]/div/div[2]/input")
-    WebElement passwordInput;
+      @FindBy (xpath = "//input[contains(@name, 'password')]")
+      WebElement passwordInput;
 
-    @FindBy(xpath = "//*[@id=\"app\"]/div[1]/div/div[1]/div/div[2]/div[2]/form/div[3]/button")
+    @FindBy(xpath = "//button[contains( ., 'Login')]")
     WebElement loginButton;
 
     public void loginWithInputs() {
