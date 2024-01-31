@@ -8,45 +8,48 @@ public class LoginPage extends BasePage {
     public LoginPage(WebDriver driver) {
         super(driver);
     }
-    @FindBy(xpath = "//*[@id=\"app\"]/div[1]/div/div[1]/div/div[2]/div[2]/div/div/p[1]")
-//    @FindBy(xpath = "//*[@id=\"app\"]/*div/p[contains(@text(),'Username :']")
+    @FindBy(xpath = "//div[contains(@class, 'orangehrm-demo-credentials')]/p[1]")
     WebElement givenUsername;
-    String name = givenUsername.getText();
-    String[] usernameWords = name.split(" : ");
-    String username =  usernameWords[usernameWords.length-1];
-
-//    public String getRealUsername(WebElement givenUsername) {
-//        String name = givenUsername.getText();
-//        String[] usernameWords = name.split(" : ");
-//        String username =  usernameWords[usernameWords.length-1];
-//        return username;
-//    }
-
-    @FindBy(xpath = "//*[@id=\"app\"]/div[1]/div/div[1]/div/div[2]/div[2]/div/div/p[2]")
+    @FindBy(xpath = "//div[contains(@class, 'orangehrm-demo-credentials')]/p[2]")
     WebElement givenPassword;
-
-    String fullPassword = givenPassword.getText();
-    String[] passwordWords = fullPassword.split(" : ");
-    String  password = passwordWords[passwordWords.length-1];
-
-      @FindBy(xpath = "//input[contains(@name, 'username')]")
-      WebElement usernameInput;
-
-      @FindBy (xpath = "//input[contains(@name, 'password')]")
-      WebElement passwordInput;
-
-    @FindBy(xpath = "//button[contains( ., 'Login')]")
+    @FindBy(xpath = "//form//input[contains(@name, 'username')]")
+    WebElement usernameInput;
+    @FindBy (xpath = "//form//input[contains(@name, 'password')]")
+    WebElement passwordInput;
+    @FindBy(xpath = "//form//button[contains( ., 'Login')]")
     WebElement loginButton;
+    @FindBy(css = ".oxd-userdropdown > .oxd-userdropdown-tab")
+    WebElement dropdownAcc;
+    @FindBy(css = "[role] li:nth-of-type(4) .oxd-userdropdown-link")
+    WebElement logoutButton;
+    @FindBy(css = ".orangehrm-login-title")
+    WebElement loginLogo;
+    @FindBy(css =".oxd-alert-content--error")
+    WebElement errorMessage;
 
-    public void loginWithInputs() {
+    public String getUserName() {
+        return givenUsername.getText().split(" : ")[1].trim();
+    }
+    public String getPassword() {
+        String fullPassword = givenPassword.getText();
+        String[] passwordWords = fullPassword.split(" : ");
+        return passwordWords[passwordWords.length-1];
+    }
+    public void loginWithInputs(String username, String password) {
         usernameInput.sendKeys(username);
         passwordInput.sendKeys(password);
         loginButton.click();
     }
-
-//    public String getLastWord (WebElement username) {
-//        String[] lastWord = username.toString().split(" : ");
-//        return lastWord[lastWord.length-1];
-//    }
-
+    public void successfulLogin() {
+        dropdownAcc.click();
+    }
+    public void logout() {
+        logoutButton.click();
+    }
+    public void successfulLogout() {
+        loginLogo.click();
+    }
+    public String alertAppears() {
+        return errorMessage.getText();
+    }
 }
