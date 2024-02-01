@@ -21,7 +21,6 @@ public class MainPage extends BasePage {
     WebElement pageSizeSelect;
     @FindBy(css = "select#page-menu > option[value='20']")
     WebElement pageSize20;
-
     @FindBy(css = "thead [role='columnheader']:nth-of-type(1) span:nth-of-type(1)")
     WebElement sortButton;
     @FindBy(xpath = "/html//input[@id='search-field']")
@@ -32,49 +31,18 @@ public class MainPage extends BasePage {
         pageSizeSelect.click();
         pageSize20.click();
     }
-//    public void productsListed() {
-//        List<WebElement> products = driver.findElements(By.xpath("//table//tbody//tr/td[1]"));
-//        ArrayList<String> productsList = new ArrayList<>(products.stream().map(WebElement::getText).collect(Collectors.toList()));
-
-        // example how to create a new list without stream
-
-//        ArrayList<String> productsList = new ArrayList<>();
-//        for(WebElement product: products) {
-//            productsList.add(product.getText());
-//            System.out.println(product.getText());
-//        }
-//    }
+    public ArrayList<String> getProductNames() {
+    List<WebElement> products = driver.findElements(By.xpath("//table//tbody//tr/td[1]"));
+    ArrayList<String> productsList = new ArrayList<>(products.stream().map(WebElement::getText).collect(Collectors.toList()));
+    return productsList;
+    }
     public int listSize() {
         List<WebElement> products = driver.findElements(By.xpath("//table//tbody//tr/td[1]"));
          return products.size();
     }
     public void sortProducts() {
         sortButton.click();
-//        List<WebElement> products = driver.findElements(By.xpath("//table//tbody//tr/td[1]"));
-//        ArrayList<String> originalList = new ArrayList<>();
-//        ArrayList<String> temporaryList = new ArrayList<>();
-//        for(WebElement product: products) {
-//            originalList.add(product.getText());
-//            temporaryList.add(product.getText());
-//        }
-//        Collections.sort(temporaryList);
-//
-//        System.out.println(originalList);
-//        System.out.println(temporaryList);
-//
-//        if (originalList.equals(temporaryList)) {
-//            System.out.println("sorted");
-//        } else {
-//            System.out.println("Not sorted");
-//
-//        }
     }
-    public ArrayList<String> getProductNames() {
-        List<WebElement> products = driver.findElements(By.xpath("//table//tbody//tr/td[1]"));
-        ArrayList<String> productsList = new ArrayList<>(products.stream().map(WebElement::getText).collect(Collectors.toList()));
-        return productsList;
-    }
-
     public void searchForProduct(String searchingFor){
         searchInput.sendKeys(searchingFor);
     }
