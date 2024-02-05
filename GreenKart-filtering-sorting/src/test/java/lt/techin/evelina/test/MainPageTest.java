@@ -23,31 +23,23 @@ public class MainPageTest extends BasePageTest{
 
         List<WebElement> products = driver.findElements(By.xpath("//table//tbody//tr/td[1]"));
         ArrayList<String> sortedList = new ArrayList<>();
-        for(WebElement product: products) {
+        for (WebElement product : products) {
             sortedList.add(product.getText());
         }
         Collections.sort(sortedList);
-        Assertions.assertEquals(sortedList,mainPage.getProductNames());
+        Assertions.assertEquals(sortedList, mainPage.getProductNames());
+    }
+    @Test
+    void searchForProduct() {
+        MainPage mainPage = new MainPage(driver);
+        mainPage.selectPageSize();
+        String searchedWord = "an";
 
-        String searchedWord = "ba";
+        List<String> unfilteredProductList = mainPage.getProductNames();
+
         mainPage.searchForProduct(searchedWord);
-
-
-//        ArrayList<String> searchResults = new ArrayList<>(products.stream()
-//                .filter(products.contains(searchedword)));
-//        if (products.contains(searchedword)) {
-//            for(WebElement product: products) {
-//                sortedList.add(product.getText());
-//            }
-//            searchResults.add(product.getText());
-//        }
-        ArrayList<String> productsList = new ArrayList<>(products.stream().map(WebElement::getText).collect(Collectors.toList()));
-        ArrayList<String> searchResults = new ArrayList<>();
-        for (String product: productsList) {
-            if (product.contains(searchedWord)) {
-                searchResults.add(product);
-            }
-        }
-        System.out.println(searchResults);
+        List<String> expectedSearchResultList = unfilteredProductList.stream().filter(pro->pro.contains(searchedWord)).toList();
+        List<String> actualSearchResultList = mainPage.getProductNames();
+        Assertions.assertEquals(expectedSearchResultList,actualSearchResultList);
     }
 }
