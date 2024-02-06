@@ -1,19 +1,24 @@
 package lt.techin.evelinatest;
 
+import lt.techin.evelina.BasePage;
 import lt.techin.evelina.MainPage;
 import lt.techin.evelina.RegisterPage;
+import lt.techin.evelinatest.utils.RandomEmail;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class RegisterPageTest extends MainPageTest{
+public class RegisterPageTest extends BasePageTest {
 
-
+     public String email = RandomEmail.getRandomEmail();
     @Test
     void validRegistration() {
-        goToRegisterPage();
+        MainPage mainPage = new MainPage(driver);
+        mainPage.clickCreateAnAccount();
         RegisterPage registerPage = new RegisterPage(driver);
-        String email = registerPage.randomEmailGenerator();
+//        String email = registerPage.randomEmailGenerator();
 
+//        String email = RandomEmail.getRandomEmail();
+        System.out.println(email);
         String name = "jonas";
         String password = "jonasjonas";
         registerPage.enterEmailAddress(email);
@@ -29,9 +34,10 @@ public class RegisterPageTest extends MainPageTest{
 
     @Test
     void invalidRegistration() {
+        MainPage mainPage = new MainPage(driver);
+        mainPage.clickCreateAnAccount();
         RegisterPage invalidregisterPage = new RegisterPage(driver);
 
-        goToRegisterPage();
         String invalidEmail  = "jonas.jonaitis.com";
         String validName = "1111";
         String validPassword = "111111";
