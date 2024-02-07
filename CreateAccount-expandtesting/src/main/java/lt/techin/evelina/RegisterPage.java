@@ -4,7 +4,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import java.util.Random;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class RegisterPage extends MainPage{
     public RegisterPage(WebDriver driver) {
@@ -22,12 +24,10 @@ public class RegisterPage extends MainPage{
     WebElement registerButton;
     @FindBy(xpath = "//*[@id=\"root\"]//div[@class='alert alert-success']/b")
     WebElement alertOfSuccessfulRegistration;
-    @FindBy(xpath = "//div[contains(text(),\"Email address is invalid\")]")
-    WebElement alertOfInvalidEmail;
-    @FindBy(xpath = "//div[contains(text(),\"User name should be between 4 and 30 characters\")]")
-    WebElement alertOfInvalidName;
-    @FindBy(xpath = "//div[contains(text(),\"Password should be between 6 and 30 characters\")]")
-    WebElement alertOfInvalidPassword;
+    @FindBy(xpath = "//div[@class='invalid-feedback']")
+    List<WebElement> registrationErrorMessages;
+    @FindBy(xpath = "//div[@class='invalid-feedback']")
+    WebElement registrationEmptyMessage;
 
     public void enterEmailAddress(String email) {
         emailInput.sendKeys(email);
@@ -55,19 +55,19 @@ public class RegisterPage extends MainPage{
     public String getAlertMessage(){
         return alertOfSuccessfulRegistration.getText();
     }
-    public String randomEmailGenerator(){
-        emailInput.click();
-        Random randomGenerator = new Random();
-        int randomInt = randomGenerator.nextInt(1000);
-        return ("username" + randomInt + "@gmail.com");
+
+
+    public boolean isMessageDislayed(String errorMessageText){
+//        ArrayList<String> newErrorMessages = new ArrayList<>();
+//        for (WebElement errorMessage : registrationErrorMessages) {
+//            newErrorMessages.add(errorMessage.getText());
+//        }
+//        return newErrorMessages.contains(errorMessageText);
+
+        ArrayList<String> newErrorMessages = registrationErrorMessages.stream().map(WebElement::getText).collect(Collectors.toCollection(ArrayList::new));
+        return newErrorMessages.contains(errorMessageText);
     }
-    public String getAlertForInvalidEmail() {
-        return alertOfInvalidEmail.getText();
-    }
-    public String getAlertForInvalidName() {
-        return alertOfInvalidName.getText();
-    }
-    public String getAlertForInvalidPassword() {
-        return alertOfInvalidPassword.getText();
+    public boolean isRegistrationFormEmpty() {
+        return registrationEmptyMessage.isDisplayed();
     }
 }

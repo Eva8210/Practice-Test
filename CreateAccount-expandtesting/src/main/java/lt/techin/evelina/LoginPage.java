@@ -4,6 +4,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import java.util.List;
+
 public class LoginPage extends BasePage{
 
 
@@ -25,6 +27,10 @@ public class LoginPage extends BasePage{
     WebElement accountEmail;
     @FindBy(xpath = "//div[@id='navbarSupportedContent']//button[@class='btn btn-outline-danger']")
     WebElement logoutButton;
+    @FindBy(xpath = "//div[@class='d-flex']")
+    WebElement alertIncorrectLogin;
+    @FindBy(xpath = "//div[@class='invalid-feedback']")
+    WebElement loginErrorMessageEmpty;
 
     public void clickLoginButton() {
         loginButtonInMainPage.click();
@@ -47,4 +53,11 @@ public class LoginPage extends BasePage{
     public void clickLogoutButton() {
         logoutButton.click();
     }
+    public String getAlertIncorrectLogin() {
+       return  alertIncorrectLogin.getText();
+    }
+    public boolean isLoginFormEmpty() {
+        return loginErrorMessageEmpty.isDisplayed();
+    }
+
 }

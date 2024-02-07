@@ -1,23 +1,25 @@
 package lt.techin.evelinatest;
 
-import lt.techin.evelina.BasePage;
+import lt.techin.evelina.LoginPage;
 import lt.techin.evelina.MainPage;
 import lt.techin.evelina.RegisterPage;
 import lt.techin.evelinatest.utils.RandomEmail;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
 
 public class RegisterPageTest extends BasePageTest {
 
-     public String email = RandomEmail.getRandomEmail();
+
     @Test
     void validRegistration() {
         MainPage mainPage = new MainPage(driver);
         mainPage.clickCreateAnAccount();
-        RegisterPage registerPage = new RegisterPage(driver);
-//        String email = registerPage.randomEmailGenerator();
 
-//        String email = RandomEmail.getRandomEmail();
+        RegisterPage registerPage = new RegisterPage(driver);
+
+        String email = RandomEmail.getRandomEmail();
         System.out.println(email);
         String name = "jonas";
         String password = "jonasjonas";
@@ -32,22 +34,25 @@ public class RegisterPageTest extends BasePageTest {
         Assertions.assertEquals(expectedAlertMessage,actualAlertMessage);
     }
 
-    @Test
-    void invalidRegistration() {
+    @ParameterizedTest
+    @CsvFileSource(resources = "/register 1.csv", numLinesToSkip = 1)
+    void invalidRegistrationWithCsvFile(String emailCsv, String nameCsv, String passwordCsv, String passwordConfirmCsv, String messageErrorCsv) {
         MainPage mainPage = new MainPage(driver);
         mainPage.clickCreateAnAccount();
-        RegisterPage invalidregisterPage = new RegisterPage(driver);
 
-        String invalidEmail  = "jonas.jonaitis.com";
-        String validName = "1111";
-        String validPassword = "111111";
-        String validPasswordRepeated = "111111";
+        RegisterPage registerPage = new RegisterPage(driver);
+        registerPage.registerToPage(emailCsv,nameCsv, passwordCsv, passwordConfirmCsv);
 
-        invalidregisterPage.registerToPage(invalidEmail,validName, validPassword, validPasswordRepeated);
+        Assertions.assertTrue(registerPage.isMessageDislayed(messageErrorCsv), "Error message: " + messageErrorCsv);
+        System.out.println("Error message: " + messageErrorCsv);
+    }
+    @Test
+    void registerWithEmptyInputs(){
+        MainPage mainPage = new MainPage(driver);
+        mainPage.clickCreateAnAccount();
+        RegisterPage registerPage = new RegisterPage(driver);
+        registerPage.clickRegisterButton();
 
-        String actualAlertForInvalidEmail = invalidregisterPage.getAlertForInvalidEmail();
-        String expectedAlertForInvalidEmail = "Email address is invalid";
-        Assertions.assertEquals(expectedAlertForInvalidEmail, actualAlertForInvalidEmail);
-
+        Assertions.assertTrue(registerPage.isRegistrationFormEmpty());
     }
 }

@@ -1,0 +1,9 @@
+emailCsv,nameCsv,passwordCsv,passwordConfirmCsv,messageErrCsv
+invalid@mail,ValidName,ValidPassword123,ValidPassword123,Email address is invalid
+valid@mail.com,*,ValidPassword123,ValidPassword123,User name should be between 4 and 30 characters
+valid@mail.com,ValidName,-,-,Password should be between 6 and 30 characters
+valid@mail.com,ValidName,ValidPassword123,ValidPassword,Passwords don't match!
+"",ValidName,ValidPassword123,ValidPassword123,Email address is required
+valid@mail.com,"",ValidPassword123,ValidPassword123,User name is required
+valid@mail.com,ValidName,"",ValidPassword123,Password is required
+valid@mail.com,ValidName,ValidPassword123,"",Confirm Password is required

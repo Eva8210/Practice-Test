@@ -14,4 +14,10 @@ public class RandomEmail {
         return randomString;
     }
 }
-
+    // Easier version of email generator (not recommended)
+//    public String randomEmailGenerator(){
+//        emailInput.click();
+//        Random randomGenerator = new Random();
+//        int randomInt = randomGenerator.nextInt(1000);
+//        return ("username" + randomInt + "@gmail.com");
+//    }

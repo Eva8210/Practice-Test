@@ -21,4 +21,26 @@ public class LoginPageTest extends BasePageTest{
         loginPage.clickLogoutButton();
 
     }
+
+    @Test
+    void invalidLogin(){
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage.clickLoginButton();
+        String incorrectEmail = RandomEmail.getRandomEmail();
+        String password = "jonasjonas";
+        loginPage.enterEmailInput(incorrectEmail);
+        loginPage.enterPasswordInput(password);
+        loginPage.clickLoginButtonInLoginPage();
+
+        Assertions.assertEquals("Incorrect email address or password", loginPage.getAlertIncorrectLogin());
+    }
+
+    @Test
+    void loginWithEmptyInputs(){
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage.clickLoginButton();
+
+        loginPage.clickLoginButtonInLoginPage();
+        Assertions.assertTrue(loginPage.isLoginFormEmpty());
+    }
 }
