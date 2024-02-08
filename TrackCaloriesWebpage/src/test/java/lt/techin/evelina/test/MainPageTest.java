@@ -1,6 +1,7 @@
 package lt.techin.evelina.test;
 
 import lt.techin.evelina.MainPage;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class MainPageTest extends BasePageTest{
@@ -21,7 +22,6 @@ public class MainPageTest extends BasePageTest{
         mainPage.enterMealAndAddToList("Bacon", 200);
         mainPage.enterMealAndAddToList("Coffee", 47);
         System.out.println(mainPage.createMealsList());
-
     }
     @Test
     void CalculateMealsCalories() {
@@ -32,9 +32,27 @@ public class MainPageTest extends BasePageTest{
         mainPage.enterMealAndAddToList("Pancakes", 369);
         mainPage.enterMealAndAddToList("Bacon", 200);
         mainPage.enterMealAndAddToList("Coffee", 47);
-        System.out.println(mainPage.createMealsList());
 
-        System.out.println(mainPage.caloriesCalculator());
+        int expectedCalories = mainPage.caloriesCalculator();
+        int actualCalories = mainPage.printTotalCaloriesInPage();
+        Assertions.assertEquals(expectedCalories,actualCalories);
+    }
 
-        }
+    @Test
+    void editItemsCalories() {
+        MainPage mainPage = new MainPage(driver);
+        mainPage.enterMealAndAddToList("Egg", 50);
+        mainPage.enterMealAndAddToList("Yogurt", 87);
+        mainPage.enterMealAndAddToList("Pancakes", 369);
+        mainPage.enterMealAndAddToList("Bacon", 200);
+        mainPage.enterMealAndAddToList("Coffee", 47);
+        mainPage.clickEditButton();
+        mainPage.clearAddCaloriesInput();
+
+        int editedCalories = 120;
+        mainPage.addNewCalories(editedCalories);
+        mainPage.clickUpdateButton();
+
+
+    }
 }

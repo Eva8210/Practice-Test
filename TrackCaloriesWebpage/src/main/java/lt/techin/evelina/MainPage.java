@@ -21,6 +21,12 @@ public class MainPage extends BasePage{
     WebElement addMealButton;
     @FindBy(xpath = "//li[contains(@class,'collection-item')]")
     List<WebElement> meals;
+    @FindBy(xpath = "//span[@class='total-calories']")
+    WebElement totalCaloriesCount;
+    @FindBy(xpath = "//ul[@id='item-list']/li[last()]/a")
+    WebElement editPencilButton;
+    @FindBy(xpath = "//form//button[contains(text(), 'Update Meal')]")
+    WebElement updateMealButton;
 
     public void addNewItem(String item) {
         addItemInput.sendKeys(item);
@@ -41,16 +47,31 @@ public class MainPage extends BasePage{
         return mealsList;
     }
 
+    public int printTotalCaloriesInPage(){
+        String totalCaloriesFromPage = totalCaloriesCount.getText();
+        return Integer.parseInt(totalCaloriesFromPage);
+    }
     public int caloriesCalculator() {
-
         List<Integer> allCalories = new ArrayList<>();
-        for (WebElement meal : meals) {
-            String text = meal.getText();
-            String[] parts = text.split(": ");
-            String numericPart = parts[1].replace("Calories", "").trim();
-            int calorieValue = Integer.parseInt(numericPart);
-            allCalories.add(calorieValue);
+            for (WebElement meal : meals) {
+                String text = meal.getText();
+                String parts = text.split(" ")[1];
+                int calorieValue = Integer.parseInt(parts);
+                allCalories.add(calorieValue);
         }
-        return allCalories.stream().mapToInt(Integer::intValue).sum();
+        int totalCaloriesCalculated = 0;
+        for (Integer caloriesNumber : allCalories) {
+            totalCaloriesCalculated += caloriesNumber;
+        }
+        return totalCaloriesCalculated;
+    }
+    public void clickEditButton(){
+        editPencilButton.click();
+    }
+    public void clearAddCaloriesInput(){
+        addCaloriesInput.clear();
+    }
+    public void clickUpdateButton(){
+        updateMealButton.click();
     }
 }
