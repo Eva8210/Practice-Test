@@ -17,10 +17,9 @@ public class BasePageTest {
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
     }
+    @AfterEach
+    void teardown() {
+        driver.quit();
+    }
 
-//    @AfterEach
-//    void teardown() {
-//        driver.quit();
-//    }
-//
 }
