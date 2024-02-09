@@ -13,14 +13,14 @@ public class BasePageTest {
     @BeforeEach
     void setup() {
         driver = new ChromeDriver();
-        driver.get("https://practice.expandtesting.com/tracalorie/");
+        driver.get("http://192.168.88.86/");
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
     }
 
-    @AfterEach
-    void teardown() {
-        driver.quit();
-    }
-
+//    @AfterEach
+//    void teardown() {
+//        driver.quit();
+//    }
+//
 }
